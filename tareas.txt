@@ -1,0 +1,75 @@
+Estas tareas son las que yo veo almenos las mas importantes cualquier cosa
+las discutimos
+
+ordenadas en orden de importancia
+---------------------------------------------------------
+Martin-Eli
+Sprites:
+1) Saber como manejar sprites con java (esta es la mas importante y la mas larga supongo, en todos los demas puntos para abajo va a estar esta tarea...)
+2) Ver como son los sprites isometricos
+3) Diseño del mapa
+Aclaraciones:
+yo supongo que no nos tenemos que matar en hacer 40 mapas
+primero nos deberiamos centrar en un escenario principal que sea la ciudad y sus alrededores
+en la ciudad habria NPC y no se podria atacar(esto es parte de la logica pero lo digo para dar una idea)
+luego vemos como mechar algun otro mapa
+4) Movimiento en 8 direcciones
+Aclaraciones:
+fijense como mover a su personaje dentro del mapa
+5) Restricciones de movimientos, "coliders" no se si se llama asi en java
+Por ejemplo: si hay una casa que solo pueda entrar por la puerta, si hay una pared que no la pueda atravesar
+6) Diseño de armaduras, armas, animaciones, caritas de personajes, custom, todo...(esta es la parte mas divertida supongo y un poco extensa)
+
+por ahora son esos los puntos
+---------------------------------------------------------
+
+ordenadas en orden de impotancia
+---------------------------------------------------------
+Berni-Lukki
+Base de datos:
+1) Debemos analizar bien el dominio de la base, muchos de nosotros jugamos a estos juegos asique no vamos a tener tanto problema
+pero no hay que hacerlo tan largo... hay que definir un alcance
+Aclaracion:
+Este es el punto mas importante. seguramente las tengamos que rehacer un par de veces pero cada vez
+va a ser mejor :)
+2) Ver que todo cierre a la perfeccion con respecto a las entidades
+Ejemplo: como primera idea se me ocurre por ejemplo tener las siguientes 3 entidades:
+Personaje-Mochila-Item
+
+el personaje se relaciona con los items a traves de la mochila, un personaje puede tener una mochila y esa mochila puede
+tener muchos items... o almenos esa idea se me ocurrio ami... lo podemos analizar
+
+Ejemplo2:
+Personaje-CampoBatalla-Monstruo
+
+esto seria 1 personaje 1 monstruo(1v1)
+
+puede ser sino
+
+Personaje-CampoBatalla-GrupoMonstruo-Monstruo
+
+El personaje entra en batalla con un grupo de monstruos y ese grupo de monstruos contiene 1 o muchos monstruos
+
+como digo es solo una idea... habria que analizarla y refinarla...
+3) Tener en cuenta que necesitamos un Login donde se va a guardar los personajes de la cuenta
+4) Ver como conectarse con java...
+
+por ahora son esos los puntos
+---------------------------------------------------------
+
+ordenadas en orden de importancia
+---------------------------------------------------------
+Mati-Agus
+Logica:
+1) Eventos, Hooks, listeners(como se llamen)
+Ejemplo:
+Evento de coalicion
+2) Multithreading-Sockets
+3) Cliente-Servidor
+4) Conectar las vistas (Sprites) con los datos (Base)
+
+Aca hay mucho para hacer... por eso una vez que tengamos terminada la base vamos a distribuirnos en estas tareas
+o si el equipo de sprites necesita ayuda metemos ahi uno tambien y trabajamos 3 y 3
+
+por ahora son esos los puntos
+---------------------------------------------------------
