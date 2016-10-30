@@ -1,0 +1,17 @@
+
+// Informacion del mapa
+
+// Imagen con el nombre del archivo del piso
+imagen surface
+
+// Tamaño del mapa en Tiles
+tamTiles  16 23     
+
+// Ancho y Alto de un mapa
+dimTile 56 29
+
+// Comienzo de primer fila PAR
+filaPar 12 8
+
+// Comienzo de primer fila IMPAR
+filaImpar 40 23
