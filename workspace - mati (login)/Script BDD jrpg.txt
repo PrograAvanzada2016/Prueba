@@ -1,0 +1,28 @@
+create database jrpg;
+
+
+
+use jrpg;
+
+
+
+create table usuario(
+
+id bigint(10) auto_increment,
+
+nombre varchar(30) not null,
+
+apellido varchar (30) not null,
+
+nombreUsuario varchar(30) not null,
+
+pass varchar(30) not null,
+
+primary key (id)
+);
+
+insert into jrpg.usuario (nombre, apellido, nombreUsuario, pass) values('matias', 'cairo', 'killer', '1234');
+
+
+
+select * from jrpg.usuario where nombreUsuario like 'killer' and pass like '1234';
