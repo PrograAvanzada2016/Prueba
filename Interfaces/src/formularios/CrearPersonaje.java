@@ -1,38 +1,28 @@
 package formularios;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
-
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
 
 public class CrearPersonaje extends JFrame {
+	
+	OtraInterfaz otraInterfaz;
+	Personaje personaje;
+	
+	static Properties propiedades;
+	static PropertiesFile pf;
 	
 	private String nombrePersonaje;
 	private String razaPersonaje;
@@ -46,10 +36,13 @@ public class CrearPersonaje extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					pf = new PropertiesFile();
+					propiedades = pf.getProperties();
 					CrearPersonaje frame = new CrearPersonaje();
 					frame.setVisible(true);
-					frame.setSize(new Dimension(800,600));
+					frame.setSize(Integer.parseInt(propiedades.getProperty("w")),Integer.parseInt(propiedades.getProperty("h")));
 					frame.setLocationRelativeTo(null);
+					frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 					frame.setResizable(false);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -89,9 +82,9 @@ public class CrearPersonaje extends JFrame {
 		JComboBox raza = new JComboBox();
 		raza.setBounds(313, 95, 86, 20);
 		
-		raza.addItem("");
+		raza.addItem("Seleccione");
 		raza.addItem("Humano");
-		raza.addItem("Olfo");
+		raza.addItem("Orco");
 		
 		contentPane.add(raza);
 		
@@ -103,7 +96,7 @@ public class CrearPersonaje extends JFrame {
 		JComboBox casta = new JComboBox();
 		casta.setBounds(313, 143, 86, 20);
 		
-		casta.addItem("");
+		casta.addItem("Seleccione");
 		casta.addItem("Guerrero");
 		casta.addItem("Mago");
 		casta.addItem("Curandero");
@@ -113,17 +106,17 @@ public class CrearPersonaje extends JFrame {
 		JButton btnCrear = new JButton("Crear");
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				OtraInterfaz otra = new OtraInterfaz();
 				try{
-					CrearPersonaje personaje = new CrearPersonaje(textField,raza,casta);
+					personaje = new Personaje(textField.getText(),raza.getSelectedItem().toString(),casta.getSelectedItem().toString());
+					otraInterfaz = new OtraInterfaz(personaje);
 					
 				} catch (Exception e){
 					e.printStackTrace();
 				}
 			setVisible(false);
-			otra.setVisible(true);
-			otra.setSize(new Dimension(800,600));
-			otra.setLocationRelativeTo(null);
+			otraInterfaz.setVisible(true);
+			otraInterfaz.setSize(new Dimension(800,600));
+			otraInterfaz.setLocationRelativeTo(null);
 				
 			}
 		});
