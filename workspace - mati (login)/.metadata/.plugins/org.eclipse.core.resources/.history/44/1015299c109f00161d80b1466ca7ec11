@@ -1,0 +1,95 @@
+package interfaz;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import model.Usuario;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+
+public class Inicio extends JFrame {
+
+	private JPanel contentPane;
+	private Usuario usuario;
+	private JTextArea textArea;
+	private boolean cancelar;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					//Inicio frame = new Inicio(usuario);
+					//frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Inicio(Usuario user) {
+		initComponents();
+		usuario = user;
+		textArea.setText("Bienvenido "+usuario.getNombre());
+	}
+	
+	public void initComponents(){
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		textArea = new JTextArea();
+		textArea.setBounds(123, 62, 149, 100);
+		contentPane.add(textArea);
+	}
+	
+	private void cerrarConexion() throws IOException{
+	    int resp = JOptionPane.showConfirmDialog(this, "¿Desea salir del programa?");
+	    cancelar = false;
+	    if (resp==JOptionPane.YES_OPTION){
+	        
+	            salida.writeObject("fin");
+	            JOptionPane.showMessageDialog(this, "Conexion con Servidor cerrada correctamente");
+	            System.exit(0);
+	        
+	       
+	    }
+	    else{
+	        if (resp==JOptionPane.NO_OPTION || resp==JOptionPane.CANCEL_OPTION || resp==JOptionPane.CLOSED_OPTION){
+	             cancelar=true;
+	        }
+	     }
+	}
+	    
+	    private void cerrar() {
+	       try{
+	            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	            addWindowListener(new WindowAdapter(){
+	                public void windowClosing(WindowEvent e){
+	                    try {
+	                        cerrarConexion();
+	                    } catch (IOException ex) {
+	                        Logger.getLogger(ABMAlumno.class.getName()).log(Level.SEVERE, null, ex);
+	                    }
+	                    }
+	                }
+	            );    
+	            this.setVisible(true);
+	            }catch (Exception e){   
+	            }
+	        }
+}

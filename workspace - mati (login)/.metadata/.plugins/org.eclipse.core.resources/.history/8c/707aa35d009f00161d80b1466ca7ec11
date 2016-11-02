@@ -1,0 +1,75 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
+import model.Usuario;
+
+public class UsuarioDAO extends DAO<Usuario>{
+	
+	private final Statement statement;
+    private static final int NO_ENCONTRADO = -1;
+    private static final int ENCONTRADO = 1;
+     
+    public UsuarioDAO(Connection conn, Statement stat) throws SQLException {
+        conn = DriverManager.getConnection("jdbc:mysql://localhost/jrpg", "root", "1234");
+        statement = conn.createStatement();
+        stat = statement;
+    }
+
+	@Override
+	public void insertar(Usuario usuario) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void borrar(Usuario usuario) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modificar(Usuario usuario) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long buscar(Usuario usuario) throws DAOException {
+		try {
+            String buscar = "select * from jrpg.usuario where nombreUsuario = "+usuario.getNombreUsuario()+";";
+            statement.execute(buscar);
+            ResultSet rs = statement.executeQuery(buscar);
+            if(rs.next()){
+            	usuario.setNombre(rs.getString("nombre"));
+            	usuario.setApellido(rs.getString("apellido"));
+                alu.setNombre(rs.getString("NOMBRE"));
+                char sexo = (char)rs.getString("SEXO").charAt(0);
+                alu.setSexo(sexo);
+                String fechaNac = new SimpleDateFormat("yyyy/MM/dd").format(rs.getDate("FEC_NAC"));
+                alu.setFechaNac(new FechaCalendar(Integer.valueOf(fechaNac.substring(0, 4)), Integer.valueOf(fechaNac.substring(5, 7)), Integer.valueOf(fechaNac.substring(8, 10))));
+                String fechaIng = new SimpleDateFormat("yyyy/MM/dd").format(rs.getDate("FEC_ING"));
+                alu.setFechaIngreso(new FechaCalendar(Integer.valueOf(fechaIng.substring(0, 4)), Integer.valueOf(fechaIng.substring(5, 7)), Integer.valueOf(fechaIng.substring(8, 10))));
+                alu.setPromedio(rs.getDouble("PROMEDIO"));
+                alu.setCantMatAprob(rs.getInt("CANT_MAT"));
+                return ENCONTRADO;
+            }else{
+                return NO_ENCONTRADO;
+            }
+        }catch (SQLException | FechaInvalidaException ex) {
+            return NO_ENCONTRADO;
+        }
+	}
+
+	@Override
+	public List<Usuario> listarTodos() throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

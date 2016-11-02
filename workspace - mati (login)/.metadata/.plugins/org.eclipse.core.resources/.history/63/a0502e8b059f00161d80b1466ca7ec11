@@ -1,0 +1,175 @@
+package interfaz;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import model.Usuario;
+
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+
+public class Principal extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField usuarioTextField;
+	private JTextField passwordTextField;
+	private JButton logInButton;
+	private JButton registrarseButton;
+	private JTextArea mensajeTextField;
+	private Usuario usuario;
+	private Registro ventanaRegistro;
+	private Inicio ventanaInicio;
+	
+	private ObjectInputStream entrada;
+    private ObjectOutputStream salida;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Principal frame = new Principal();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	
+	public Principal(){
+		initComponents();
+		usuario = new Usuario();
+		ventanaRegistro = new Registro();
+		ventanaRegistro.setLocationRelativeTo(this);
+		
+		try {
+            Socket socket = new Socket("localhost", 4444);
+            salida = new ObjectOutputStream(socket.getOutputStream());
+            entrada = new ObjectInputStream(socket.getInputStream());
+            
+        } catch (IOException ex) {
+           ex.printStackTrace();
+        }
+	}
+	public void initComponents() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 422, 378);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		usuarioTextField = new JTextField();
+		usuarioTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent evt) {
+				usuarioTextFieldFocusLost(evt);
+			}
+		});
+		usuarioTextField.setBounds(145, 43, 116, 22);
+		contentPane.add(usuarioTextField);
+		usuarioTextField.setColumns(10);
+		
+		JLabel lblUsuario = new JLabel("Usuario");
+		lblUsuario.setBounds(77, 46, 56, 16);
+		contentPane.add(lblUsuario);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setBounds(77, 84, 56, 16);
+		contentPane.add(lblPassword);
+		
+		passwordTextField = new JTextField();
+		passwordTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				passwordTextFieldFocusLost(e);
+			}
+		});
+		passwordTextField.setBounds(145, 81, 116, 22);
+		contentPane.add(passwordTextField);
+		passwordTextField.setColumns(10);
+		
+		logInButton = new JButton("LogIn");
+		logInButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				ingresarButtonActionPerformed(evt);
+			}
+		});
+		logInButton.setBounds(145, 142, 116, 25);
+		contentPane.add(logInButton);
+		
+		registrarseButton = new JButton("Registrarse");
+		registrarseButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				registrarseButtonActionPerformed(evt);
+			}
+		});
+		registrarseButton.setBounds(145, 193, 116, 25);
+		contentPane.add(registrarseButton);
+		
+		mensajeTextField = new JTextArea();
+		mensajeTextField.setBounds(77, 231, 261, 58);
+		contentPane.add(mensajeTextField);
+	}
+	
+	public void usuarioTextFieldFocusLost(FocusEvent evt){
+		usuario.setNombreUsuario(usuarioTextField.getText());
+	}
+	
+	public void passwordTextFieldFocusLost(FocusEvent e){
+		usuario.setPassword(passwordTextField.getText());
+	}
+	
+	public void ingresarButtonActionPerformed(ActionEvent evt)
+	{
+		try {
+            if("".equals(usuarioTextField.getText()) || "".equals(passwordTextField.getText()))
+            {
+                mensajeTextField.setText("Debe ingresar todos los campos");
+            } 
+            else{
+            	
+            	salida.writeObject("buscar");
+                salida.reset();
+                salida.writeObject(usuario);
+                if(entrada.readBoolean()){
+                	mensajeTextField.setText("Todo ok");
+                	ventanaInicio = new Inicio(usuario);
+                	ventanaInicio.setVisible(true);
+                	dispose();
+                }
+                else{
+                	mensajeTextField.setText("Fallo");
+                }
+            }
+        } catch (Exception ex) {
+            mensajeTextField.setText("Fallo exception");
+            ex.printStackTrace();
+        }
+	}
+	
+	public void registrarseButtonActionPerformed(ActionEvent evt){
+		ventanaRegistro.setVisible(true);
+	}
+}

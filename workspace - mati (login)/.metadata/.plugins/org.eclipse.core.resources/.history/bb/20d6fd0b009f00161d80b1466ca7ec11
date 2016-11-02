@@ -1,0 +1,52 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.util.List;
+
+import model.Usuario;
+
+public class UsuarioDAO extends DAO<Usuario>{
+	
+	private final Statement statement;
+    private static final int NO_ENCONTRADO = -1;
+    private static final int ENCONTRADO = 1;
+     
+    public UsuarioDAO(Connection conn, Statement stat) throws SQLException {
+        conn = DriverManager.getConnection("jdbc:mysql://localhost/jrpg", "root", "1234");
+        statement = conn.createStatement();
+        stat = statement;
+    }
+
+	@Override
+	public void insertar(Usuario usuario) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void borrar(Usuario usuario) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modificar(Usuario usuario) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long buscar(Usuario usuario) throws DAOException {
+		
+		return 0;
+	}
+
+	@Override
+	public List<Usuario> listarTodos() throws DAOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,9 @@
+package dao;
+
+public abstract class DAO<T>{
+	public abstract void insertar(T obj) throws DAOExeption;;
+    public abstract void borrar(T obj)throws DAOExeption;
+    public abstract void modificar(T obj) throws  DAOExeption;
+    public abstract long buscar(T obj) throws DAOExeption;
+    public abstract List listarTodos() throws DAOExeption;
+}

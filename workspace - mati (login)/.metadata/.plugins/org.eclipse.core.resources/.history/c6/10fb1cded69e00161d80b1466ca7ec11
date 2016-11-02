@@ -1,0 +1,166 @@
+package interfaz;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.awt.Window;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import model.Usuario;
+
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Registro extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField nombreTextField;
+	private JTextField apellidoTextField;
+	private JTextField nombreUsuarioTextField;
+	private JTextField passwordTextField;
+	private JButton registroButton;
+	private JButton cancelarButton;
+	private Usuario usuario;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Registro frame = new Registro();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	
+	public Registro(){
+		initComponents();
+		usuario = new Usuario();
+	}
+	/**
+	 * Create the frame.
+	 */
+	public void initComponents() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setBounds(32, 27, 56, 16);
+		contentPane.add(lblNombre);
+		
+		JLabel lblApellido = new JLabel("Apellido");
+		lblApellido.setBounds(32, 66, 56, 16);
+		contentPane.add(lblApellido);
+		
+		JLabel lblNombreDeUsuario = new JLabel("Nombre \r\nde \r\nUsuario");
+		lblNombreDeUsuario.setBounds(32, 95, 117, 49);
+		contentPane.add(lblNombreDeUsuario);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setBounds(32, 157, 56, 16);
+		contentPane.add(lblPassword);
+		
+		registroButton = new JButton("Registrarse");
+		registroButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				registroButtonActionPerformed(evt);
+			}
+		});
+		registroButton.setBounds(65, 202, 97, 25);
+		contentPane.add(registroButton);
+		
+		cancelarButton = new JButton("Cancelar");
+		cancelarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				cancelarButtonActionPerformed(evt);
+			}
+		});
+		cancelarButton.setBounds(230, 202, 97, 25);
+		contentPane.add(cancelarButton);
+		
+		nombreTextField = new JTextField();
+		nombreTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				nombreTextFieldFocusLost(e);
+			}
+		});
+		nombreTextField.setBounds(211, 24, 116, 22);
+		contentPane.add(nombreTextField);
+		nombreTextField.setColumns(10);
+		
+		apellidoTextField = new JTextField();
+		apellidoTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				apellidoTextFieldFocusLost(e);
+			}
+		});
+		apellidoTextField.setBounds(211, 63, 116, 22);
+		contentPane.add(apellidoTextField);
+		apellidoTextField.setColumns(10);
+		
+		nombreUsuarioTextField = new JTextField();
+		nombreUsuarioTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				nombreUsuarioTextFieldFocusLost(e);
+			}
+		});
+		nombreUsuarioTextField.setBounds(211, 108, 116, 22);
+		contentPane.add(nombreUsuarioTextField);
+		nombreUsuarioTextField.setColumns(10);
+		
+		passwordTextField = new JTextField();
+		passwordTextField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				passwordTextFieldFocusLost(e);
+			}
+		});
+		passwordTextField.setBounds(211, 154, 116, 22);
+		contentPane.add(passwordTextField);
+		passwordTextField.setColumns(10);
+	}
+	
+	public void nombreTextFieldFocusLost(FocusEvent e){
+		usuario.setNombre(nombreTextField.getText());
+	}
+	
+	public void apellidoTextFieldFocusLost(FocusEvent e){
+		usuario.setApellido(apellidoTextField.getText());
+	}
+	
+	public void nombreUsuarioTextFieldFocusLost(FocusEvent e){
+		usuario.setNombreUsuario(nombreUsuarioTextField.getText());
+	}
+	
+	public void passwordTextFieldFocusLost(FocusEvent e){
+		usuario.setPassword(passwordTextField.getText());
+	}
+	
+	public void registroButtonActionPerformed(ActionEvent evt){
+		
+	}
+	
+	public void cancelarButtonActionPerformed(ActionEvent evt){
+		dispose();
+	}
+}
