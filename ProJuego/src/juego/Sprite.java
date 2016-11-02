@@ -22,8 +22,7 @@ import javax.swing.*;
 import java.awt.image.*;
 
 
-public class Sprite 
-{
+public class Sprite{
   // Tamaños de pasos por defecto. (Velocidad del Sprite).
   private static final int pasosEnX = 5; 
   private static final int pasosEnY = 5;
@@ -49,8 +48,7 @@ public class Sprite
 
 
 
-  public Sprite(int x, int y, int w, int h, CargaImagenes imagen, String nombre) 
-  { 
+  public Sprite(int x, int y, int w, int h, CargaImagenes imagen, String nombre) { 
     posicionXSprite = x; posicionYSprite = y;
     pAncho = w; pLargo = h;
     cantPasosX = pasosEnX; cantPasosY = pasosEnY;
@@ -59,9 +57,12 @@ public class Sprite
     setImagen(nombre);
   }
 
-
-  public void setImagen(String nombre) //Setea una imagen al sprite.
-  {
+  
+  //setea una imagen
+  /**
+   *este metodo setea un conjunto de imagenes
+   * */
+  public void setImagen(String nombre){
     nombreImagen = nombre;
     imagen = img.getImagen(nombreImagen);
     if (imagen == null) {
@@ -77,8 +78,11 @@ public class Sprite
     enMovimiento = false; // No va a haber movimiento (loop).
   }
 
-  public BufferedImage getImagen() //Nuevo Aliens.
-  { if (enMovimiento)
+  /**
+   * nuevo aliens
+   * */
+  public BufferedImage getImagen(){
+	if (enMovimiento)
       return jugador.getImagenActual();
     else
       return imagen;

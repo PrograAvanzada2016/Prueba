@@ -23,8 +23,7 @@ package juego;
 import java.awt.*;
 
 
-public class TilesSprite extends Sprite
-{
+public class TilesSprite extends Sprite{
   // Las direcciones del sprite a moverse.
   public final static int NE = 0; //Noreste
   public final static int SE = 1; //Sudeste
