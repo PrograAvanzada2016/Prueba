@@ -16,6 +16,9 @@ import javax.swing.border.EmptyBorder;
 import model.Usuario;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaInicio extends JFrame {
 
@@ -25,7 +28,7 @@ public class VentanaInicio extends JFrame {
 	private boolean cancelar;
 	private ObjectInputStream entrada;
     private ObjectOutputStream salida;
-    
+    private JButton jugarButton;
     static Properties propiedades;
 	static PropertiesFile pf;
 	
@@ -35,25 +38,16 @@ public class VentanaInicio extends JFrame {
 		initComponents();
 		usuario = user;
 		textArea.setText("Bienvenido "+usuario.getNombre());
-		cerrar();
-		if(usuario.getPersonajeJugador() != null){
-			VentanaMapa ventanaMapa = new VentanaMapa(usuario);
-			ventanaMapa.setVisible(true);
-			dispose();
-		}
-		else{
-			ventanaCrearPersonaje.setVisible(true);
-			dispose();
-		}
+	
 				
-		try {
+		/*try {
             Socket socket = new Socket("localhost", 4444);
             salida = new ObjectOutputStream(socket.getOutputStream());
             entrada = new ObjectInputStream(socket.getInputStream());
             
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
+        }*/
 	}
 	
 	public void initComponents(){
@@ -66,44 +60,31 @@ public class VentanaInicio extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		jugarButton = new JButton("Jugar");
+		jugarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				jugarButtonActionPerformed(evt);
+			}
+		});
+		jugarButton.setBounds(347, 391, 97, 25);
+		contentPane.add(jugarButton);
+		
 		textArea = new JTextArea();
-		textArea.setBounds(123, 62, 149, 100);
+		textArea.setBounds(232, 212, 309, 100);
 		contentPane.add(textArea);
 	}
 	
-	private void cerrarConexion() throws IOException{
-	    int resp = JOptionPane.showConfirmDialog(this, "¿Desea salir del programa?");
-	    cancelar = false;
-	    if (resp==JOptionPane.YES_OPTION){
-	        
-	            salida.writeObject("fin");
-	            JOptionPane.showMessageDialog(this, "Conexion con Servidor cerrada correctamente");
-	            System.exit(0);
-	        
-	       
-	    }
-	    else{
-	        if (resp==JOptionPane.NO_OPTION || resp==JOptionPane.CANCEL_OPTION || resp==JOptionPane.CLOSED_OPTION){
-	             cancelar=true;
-	        }
-	     }
+	public void jugarButtonActionPerformed(ActionEvent evt){
+	
+		if(usuario.getPersonajeJugador() != null){
+			VentanaMapa ventanaMapa = new VentanaMapa(usuario);
+			ventanaMapa.setVisible(true);
+			dispose();
+		}
+		else{
+			ventanaCrearPersonaje = new VentanaCrearPersonaje(usuario);
+			ventanaCrearPersonaje.setVisible(true);
+			dispose();
+		}
 	}
-	    
-	    private void cerrar() {
-	       try{
-	            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	            addWindowStateListener(new WindowAdapter(){
-	                public void windowClosing(WindowEvent e){
-	                    try {
-	                        cerrarConexion();
-	                    } catch (IOException ex) {
-	                        ex.printStackTrace();;
-	                    }
-	                    }
-	                }
-	            );    
-	            this.setVisible(true);
-	            }catch (Exception e){   
-	            }
-	        }
 }

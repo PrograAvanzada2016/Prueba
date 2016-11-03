@@ -15,11 +15,15 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class VentanaCrearPersonaje extends JFrame {
 	
-	Personaje personaje;
+	Personaje personaje  = new Personaje();;
 	VentanaMapa ventanaMapaJuego;
 	
 	static Properties propiedades;
@@ -32,16 +36,18 @@ public class VentanaCrearPersonaje extends JFrame {
 	private JTextField textField;
 	private Usuario usuario;
 	
-	
+	private JComboBox comboRaza;
+	private JComboBox comboCasta;
+	private JButton btnCrear;
     
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					//pf = new PropertiesFile();
 					//propiedades = pf.getProperties();
-					VentanaCrearPersonaje frame = new VentanaCrearPersonaje();
+					VentanaCrearPersonaje frame = new VentanaCrearPersonaje(Usuario);
 					frame.setVisible(true);
 					//frame.setSize(Integer.parseInt(propiedades.getProperty("w")),Integer.parseInt(propiedades.getProperty("h")));
 					frame.setSize(new Dimension(800,600));
@@ -53,13 +59,19 @@ public class VentanaCrearPersonaje extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
+	
+	public VentanaCrearPersonaje(Usuario user){
+		initComponents();   
+		usuario = user;
+		   
+		}
 	
 	/**
 	 * Create the frame.
 	 */
-	public VentanaCrearPersonaje() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\lukki\\workspace\\Interfaces\\src\\imagenes\\IconoVentana.jpg"));
+	public void initComponents() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("\\src\\interfaz\\IconoVentana.jpg"));
 		setTitle("Crear Personaje");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -74,6 +86,12 @@ public class VentanaCrearPersonaje extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		textField = new JTextField();
+		textField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent evt) {
+				textFieldFocusLost(evt);
+			}
+		});
 		textField.setBounds(313, 52, 86, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
@@ -83,10 +101,15 @@ public class VentanaCrearPersonaje extends JFrame {
 		lblRaza.setBounds(131, 98, 44, 14);
 		contentPane.add(lblRaza);
 		
-		JComboBox comboRaza = new JComboBox();
+		comboRaza = new JComboBox();
+		comboRaza.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				comboRazaFocusLost(e);
+			}
+		});
 		comboRaza.setBounds(313, 95, 86, 20);
 		
-		comboRaza.addItem("Seleccione");
 		comboRaza.addItem("Humano");
 		comboRaza.addItem("Orco");
 		
@@ -97,78 +120,66 @@ public class VentanaCrearPersonaje extends JFrame {
 		lblCasta.setBounds(131, 146, 44, 14);
 		contentPane.add(lblCasta);
 		
-		JComboBox comboCasta = new JComboBox();
+		comboCasta = new JComboBox();
+		comboCasta.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				comboCastaFocusLost(e);
+			}
+		});
 		comboCasta.setBounds(313, 143, 86, 20);
 		
-		comboCasta.addItem("Seleccione");
 		comboCasta.addItem("Guerrero");
 		comboCasta.addItem("Mago");
 		comboCasta.addItem("Curandero");
 		
 		contentPane.add(comboCasta);
 		
-		JButton btnCrear = new JButton("Crear");
+		btnCrear = new JButton("Crear");
 		btnCrear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try{
-					personaje = new Personaje(textField.getText(),comboRaza.getSelectedItem().toString(),comboCasta.getSelectedItem().toString()); //Lo puede guardar en la base.
-					VentanaMapa ventanaMapa = new VentanaMapa(personaje);
-					
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-			ventanaMapaJuego.setVisible(true);
-			ventanaMapaJuego.setSize(new Dimension(800,600));
-			ventanaMapaJuego.setLocationRelativeTo(null);
-			dispose();
-				
+			public void actionPerformed(ActionEvent evt) {
+				btnCrearActionPerformed(evt);
 			}
 		});
 		btnCrear.setBounds(313, 206, 89, 23);
 		contentPane.add(btnCrear);
 		
 		JLabel lblImagen = new JLabel("");
-		lblImagen.setIcon(new ImageIcon("C:\\Users\\lukki\\workspace\\Interfaces\\src\\imagenes\\BackgroundCrearPersonaje.jpeg"));
+		lblImagen.setIcon(new ImageIcon("src\\interfaz\\BackgroundCrearPersonaje.jpeg"));
 		lblImagen.setBounds(0, 0, 1776, 1050);
 		contentPane.add(lblImagen);
 		
 	}
 	
-	public VentanaCrearPersonaje(JTextField text, JComboBox raza, JComboBox casta, Usuario user){
-	   Personaje personaje = new Personaje();
-	   personaje.nombrePersonaje = text.getText();
-	   personaje.razaPersonaje = (String) raza.getSelectedItem();
-	   personaje.castaPersonaje = (String) casta.getSelectedItem();
-	   
-	   usuario.setPersonajeJugador(personaje);
-	   
-	  }
-
-	public String getNombrePersonaje() {
-		return nombrePersonaje;
-	}
-
-	public void setNombrePersonaje(String nombrePersonaje) {
-		this.nombrePersonaje = nombrePersonaje;
-	}
-
-	public String getRazaPersonaje() {
-		return razaPersonaje;
-	}
-
-	public void setRazaPersonaje(String razaPersonaje) {
-		this.razaPersonaje = razaPersonaje;
-	}
-
-	public String getCastaPersonaje() {
-		return castaPersonaje;
-	}
-
-	public void setCastaPersonaje(String castaPersonaje) {
-		this.castaPersonaje = castaPersonaje;
+	public void textFieldFocusLost(FocusEvent evt){
+		personaje.setNombrePersonaje(textField.getText());
 	}
 	
+	public void comboRazaFocusLost(FocusEvent e){
+		//Esto va a tener un switch
+		personaje.setRazaPersonaje((String)comboRaza.getSelectedItem());
+	}
 	
+	public void comboCastaFocusLost(FocusEvent e){
+		//Esto va a tener un switch
+		personaje.setCastaPersonaje((String)comboCasta.getSelectedItem());
+	}
 	
+	public void btnCrearActionPerformed(ActionEvent evt){
+		try{
+			
+			usuario.setPersonajeJugador(personaje);
+			ventanaMapaJuego = new VentanaMapa(usuario);
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		ventanaMapaJuego.setSize(new Dimension(800,600));
+		ventanaMapaJuego.setLocationRelativeTo(null);
+		ventanaMapaJuego.setVisible(true);
+		dispose();
+		
+	}
+
 	
 }

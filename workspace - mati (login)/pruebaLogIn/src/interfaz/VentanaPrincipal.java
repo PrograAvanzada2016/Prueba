@@ -81,14 +81,14 @@ public class VentanaPrincipal extends JFrame {
 			e.printStackTrace();
 		}
 		
-		try {
+		/*try {
             Socket socket = new Socket("localhost", 4442);
             salida = new ObjectOutputStream(socket.getOutputStream());
             entrada = new ObjectInputStream(socket.getInputStream());
             
         } catch (IOException ex) {
            ex.printStackTrace();
-        }
+        }*/
 	}
 	public void initComponents() {
 		pf = new PropertiesFile();
@@ -170,11 +170,11 @@ public class VentanaPrincipal extends JFrame {
             } 
             else{
             	
-            	salida.writeObject("buscar");
+            	/*salida.writeObject("buscar");
                 salida.reset();
                 salida.writeObject(gson.toJson(usuario));
-                usuario = gson.fromJson((String) entrada.readObject(), Usuario.class);
-                if(entrada.readBoolean()){
+                usuario = gson.fromJson((String) entrada.readObject(), Usuario.class);*/
+                if(usuarioDAO.buscar(usuario) == 1){
                 	mensajeTextField.setText("Todo ok");
                 	ventanaInicio = new VentanaInicio(usuario);
                 	ventanaInicio.setVisible(true);

@@ -60,7 +60,7 @@ public void run() {
                          long pointer = usuarioDAO.buscar(usuario);
                          if(pointer!=-1){
                            salida.reset();
-                           salida.writeObject( gson.toJson(usuario));
+                           salida.writeObject();
                            salida.reset();
                            salida.writeBoolean(true);
                          }
