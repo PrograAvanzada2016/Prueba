@@ -1,6 +1,6 @@
 package interfaz;
+import model.Usuario;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -8,18 +8,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import model.Usuario;
-
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-public class Inicio extends JFrame {
+public class VentanaInicio extends JFrame {
 
 	private JPanel contentPane;
 	private Usuario usuario;
@@ -27,30 +25,27 @@ public class Inicio extends JFrame {
 	private boolean cancelar;
 	private ObjectInputStream entrada;
     private ObjectOutputStream salida;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					//Inicio frame = new Inicio(usuario);
-					//frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    
+    static Properties propiedades;
+	static PropertiesFile pf;
+	
+	public VentanaCrearPersonaje ventanaCrearPersonaje;
 
-	/**
-	 * Create the frame.
-	 */
-	public Inicio(Usuario user) {
+	public VentanaInicio(Usuario user) {
 		initComponents();
 		usuario = user;
 		textArea.setText("Bienvenido "+usuario.getNombre());
 		cerrar();
+		if(usuario.getPersonajeJugador() != null){
+			VentanaMapa ventanaMapa = new VentanaMapa(usuario);
+			ventanaMapa.setVisible(true);
+			dispose();
+		}
+		else{
+			ventanaCrearPersonaje.setVisible(true);
+			dispose();
+		}
+				
 		try {
             Socket socket = new Socket("localhost", 4444);
             salida = new ObjectOutputStream(socket.getOutputStream());
@@ -62,8 +57,10 @@ public class Inicio extends JFrame {
 	}
 	
 	public void initComponents(){
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		pf = new PropertiesFile();
+		propiedades = pf.getProperties();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(Integer.parseInt(propiedades.getProperty("w")),Integer.parseInt(propiedades.getProperty("h")));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

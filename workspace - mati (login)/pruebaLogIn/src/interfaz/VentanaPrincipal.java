@@ -1,8 +1,6 @@
 package interfaz;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -27,8 +25,9 @@ import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
-public class Principal extends JFrame {
+public class VentanaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField usuarioTextField;
@@ -37,11 +36,14 @@ public class Principal extends JFrame {
 	private JButton registrarseButton;
 	private JTextArea mensajeTextField;
 	private Usuario usuario;
-	private Registro ventanaRegistro;
-	private Inicio ventanaInicio;
+	private VentanaRegistro ventanaRegistro;
+	private VentanaInicio ventanaInicio;
 	private UsuarioDAO usuarioDAO;
 	private ObjectInputStream entrada;
     private ObjectOutputStream salida;
+    
+    static Properties propiedades;
+	static PropertiesFile pf;
     
     private Gson gson;
 
@@ -52,7 +54,7 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Principal frame = new Principal();
+					VentanaPrincipal frame = new VentanaPrincipal();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,10 +67,10 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	
-	public Principal(){
+	public VentanaPrincipal(){
 		initComponents();
 		usuario = new Usuario();
-		ventanaRegistro = new Registro();
+		ventanaRegistro = new VentanaRegistro();
 		ventanaRegistro.setLocationRelativeTo(this);
 		gson = new Gson();
 		Connection conn = null;
@@ -89,8 +91,10 @@ public class Principal extends JFrame {
         }
 	}
 	public void initComponents() {
+		pf = new PropertiesFile();
+		propiedades = pf.getProperties();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 422, 378);
+		setSize(Integer.parseInt(propiedades.getProperty("w")),Integer.parseInt(propiedades.getProperty("h")));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -119,7 +123,7 @@ public class Principal extends JFrame {
 		passwordTextField.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				passwordTextFieldFocusLost(e);
+				passwordTextFieldFocusLost(e); 
 			}
 		});
 		passwordTextField.setBounds(145, 81, 116, 22);
@@ -172,7 +176,7 @@ public class Principal extends JFrame {
                 usuario = gson.fromJson((String) entrada.readObject(), Usuario.class);
                 if(entrada.readBoolean()){
                 	mensajeTextField.setText("Todo ok");
-                	ventanaInicio = new Inicio(usuario);
+                	ventanaInicio = new VentanaInicio(usuario);
                 	ventanaInicio.setVisible(true);
                 	dispose();
                 }

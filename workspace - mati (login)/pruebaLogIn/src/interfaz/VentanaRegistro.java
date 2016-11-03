@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class Registro extends JFrame {
+public class VentanaRegistro extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField nombreTextField;
@@ -40,7 +40,7 @@ public class Registro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Registro frame = new Registro();
+					VentanaRegistro frame = new VentanaRegistro();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,13 +50,12 @@ public class Registro extends JFrame {
 	}
 
 	
-	public Registro(){
+	public VentanaRegistro(){
 		initComponents();
 		usuario = new Usuario();
 		try {
 			usuarioDAO=new UsuarioDAO(null, null);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -1,6 +1,5 @@
 package model;
-
-import java.io.Serializable;
+import interfaz.Personaje;
 
 public class Usuario {
 	private long id;
@@ -8,16 +7,27 @@ public class Usuario {
 	private String apellido;
 	private String nombreUsuario;
 	private String password;
+	private Personaje personajeJugador;
 	
-	public Usuario(long id, String nombre, String apellido, String nombreUsuario, String password) {
+	public Usuario(long id, String nombre, String apellido, String nombreUsuario, String password, Personaje p) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.nombreUsuario = nombreUsuario;
 		this.password = password;
-	}
+		this.personajeJugador = p;
+			
+		}
 	
+	public Personaje getPersonajeJugador() {
+		return personajeJugador;
+	}
+
+	public void setPersonajeJugador(Personaje personajeJugador) {
+		this.personajeJugador = personajeJugador;
+	}
+
 	public Usuario(){
 		id=0;
 		nombre="";
